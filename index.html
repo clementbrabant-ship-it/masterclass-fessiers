@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Masterclass Fessiers</title>
+<style>
+/* Layout: one narrow column. Hero, three promises, session picker with live seats, form. Warm graphite + coral accent, no gradients. */
+:root{
+  --bg:#f6f4f2; --surface:#ffffff; --fg:#1d1b1c; --muted:#6b6566; --line:#e2dedb;
+  --accent:#d6452f; --accent-fg:#ffffff; --ok:#2f7d4f; --warn:#a96a00; --soft:#fbe9e5;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#161415; --surface:#211e1f; --fg:#f3efed; --muted:#a39c9d; --line:#3a3536; --accent:#ee6a52; --accent-fg:#1a0d0a; --ok:#6cc58b; --warn:#e0a63a; --soft:#33201c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#161415; --surface:#211e1f; --fg:#f3efed; --muted:#a39c9d; --line:#3a3536; --accent:#ee6a52; --accent-fg:#1a0d0a; --ok:#6cc58b; --warn:#e0a63a; --soft:#33201c; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
+main{max-width:620px;margin:0 auto;display:flex;flex-direction:column;gap:36px}
+.eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font:700 clamp(46px,13vw,76px)/.92 var(--display);text-transform:uppercase;margin:8px 0 14px;text-wrap:balance}
+h2{font:700 30px/1 var(--display);text-transform:uppercase;margin:0 0 14px}
+.lead{font-size:18px;color:var(--fg);max-width:52ch;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.meta span{border:1px solid var(--line);background:var(--surface);padding:6px 12px;border-radius:999px;font-size:14px}
+.points{display:grid;gap:12px;padding:0;margin:0;list-style:none}
+.points li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.points b{display:block;font-weight:600}
+.points span{color:var(--muted);font-size:15px}
+.sessions{display:grid;gap:10px;border:0;padding:0;margin:0}
+.session{position:relative}
+.session input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.session label{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface);border:2px solid var(--line);border-radius:10px;padding:14px 16px;cursor:pointer}
+.session input:checked+label{border-color:var(--accent);background:var(--soft)}
+.session input:focus-visible+label{outline:3px solid var(--accent);outline-offset:2px}
+.session input:disabled+label{opacity:.5;cursor:not-allowed}
+.date{font:700 24px/1 var(--display);text-transform:uppercase}
+.sub{font-size:14px;color:var(--muted)}
+.seats{font-size:14px;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.seats.ok{color:var(--ok)}.seats.low{color:var(--warn)}.seats.full{color:var(--accent)}
+form{display:grid;gap:16px}
+.field{display:grid;gap:6px;min-width:0}
+.field label,.legend{font-weight:600;font-size:15px}
+.field small{color:var(--muted);font-size:13px;font-weight:400}
+input[type=text],input[type=tel],input[type=email],select,textarea{width:100%;font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px}
+textarea{min-height:76px;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
+.check input{margin-top:4px;width:18px;height:18px;flex:none}
+button.go{font:700 22px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;background:var(--accent);color:var(--accent-fg);border:0;border-radius:10px;padding:18px;cursor:pointer}
+button.go:disabled{opacity:.5;cursor:not-allowed}
+.msg{border-radius:10px;padding:14px 16px;font-size:15px}
+.msg.err{background:var(--soft);color:var(--fg);border:1px solid var(--accent)}
+.done{background:var(--surface);border:2px solid var(--ok);border-radius:12px;padding:20px}
+.done h2{color:var(--ok)}
+.fallback{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:16px;font-size:15px}
+.foot{font-size:13px;color:var(--muted)}
+@media(prefers-reduced-motion:no-preference){.session label{transition:border-color .15s,background .15s}}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Inter:wght@400;600&display=swap">
+</head><body>
+
+<main>
+  <header>
+    <div class="eyebrow">Basic-Fit Charleville-Mézières · Réservé aux femmes</div>
+    <h1>Masterclass Fessiers</h1>
+    <p class="lead">1 heure pour comprendre ton fessier et apprendre à le faire travailler. On voit l'anatomie, la biomécanique, puis on pratique, du plus simple au plus complet. Pas besoin d'être sportive.</p>
+    <div class="meta"><span>Lundi, 19h</span><span>1 heure</span><span>12 places par atelier</span></div>
+  </header>
+
+  <ul class="points">
+    <li><b>Comprendre</b><span>Les 3 muscles fessiers, leur rôle, et pourquoi on ne les sent pas toujours.</span></li>
+    <li><b>Pratiquer</b><span>Du pont fessier au hip thrust, en 3 niveaux, avec correction en direct.</span></li>
+    <li><b>Repartir avec un plan</b><span>À la fin, tu peux choisir un programme de 8 semaines pour continuer chez toi ou en salle. Sans obligation.</span></li>
+  </ul>
+
+  <section id="resa" aria-labelledby="t-resa">
+    <h2 id="t-resa">Réserve ta place</h2>
+    <div id="done" hidden></div>
+    <form id="form" novalidate>
+      <fieldset class="sessions" id="sessions"><legend class="legend" style="margin-bottom:8px">Choisis ton lundi</legend></fieldset>
+      <div class="field"><label for="prenom">Prénom</label><input id="prenom" type="text" autocomplete="given-name" required></div>
+      <div class="field"><label for="tel">Téléphone <small>pour te rappeler l'horaire (WhatsApp)</small></label><input id="tel" type="tel" autocomplete="tel" inputmode="tel" required></div>
+      <div class="field"><label for="mail">Email <small>facultatif</small></label><input id="mail" type="email" autocomplete="email"></div>
+      <div class="field"><label for="niveau">Ton niveau en salle</label>
+        <select id="niveau"><option value="debutante">Je débute</option><option value="intermediaire">Je m'entraîne déjà un peu</option><option value="avancee">Je m'entraîne régulièrement</option></select></div>
+      <div class="field"><label for="objectif">Ton objectif</label>
+        <select id="objectif"><option value="tonifier">Tonifier et galber</option><option value="volume">Prendre du volume</option><option value="sentir">Enfin sentir mes fessiers travailler</option><option value="autre">Autre</option></select></div>
+      <div class="field"><label for="gene">Une gêne ou une douleur à signaler ? <small>facultatif</small></label><textarea id="gene"></textarea></div>
+      <label class="check"><input id="rgpd" type="checkbox"> J'accepte que mon prénom et mon téléphone soient utilisés uniquement pour l'organisation de cet atelier.</label>
+      <div id="err" class="msg err" role="alert" hidden></div>
+      <button class="go" id="submit" type="submit">Je réserve ma place</button>
+    </form>
+    <div id="fallback" class="fallback" hidden>Les places ne se chargent pas pour le moment. Envoie le mot <b>FESSIERS</b> en message privé à Clément (Call ton coach) avec ton prénom et le lundi choisi.</div>
+  </section>
+
+  <p class="foot">Atelier animé par Clément Brabant, Enseignant en Activité Physique Adaptée et head trainer. Tenue de sport, bouteille d'eau. Pense à prévenir si tu ne peux plus venir, pour libérer ta place.</p>
+</main>
+
+<script>
+(function(){
+  // 1) Colle ici l'URL de déploiement de ton Google Apps Script (Application web)
+  var API="COLLE_ICI_L_URL_DU_SCRIPT";
+  var SESSIONS=[
+    {id:"2026-11-30",label:"Lundi 30 novembre",cap:12},
+    {id:"2026-12-07",label:"Lundi 7 décembre",cap:12},
+    {id:"2026-12-14",label:"Lundi 14 décembre",cap:12},
+    {id:"2027-01-11",label:"Lundi 11 janvier",cap:12}
+  ];
+  var taken={}, chosen=null, saving=false, n=0;
+  var $=function(id){return document.getElementById(id)};
+  var box=$("sessions");
+
+  function jsonp(params){
+    return new Promise(function(res,rej){
+      var cb="cb"+Date.now()+(n++), sc=document.createElement("script"), done=false;
+      var t=setTimeout(function(){if(!done){done=true;cleanup();rej(new Error("timeout"))}},12000);
+      function cleanup(){clearTimeout(t);delete window[cb];sc.remove()}
+      window[cb]=function(d){if(done)return;done=true;cleanup();res(d)};
+      sc.onerror=function(){if(!done){done=true;cleanup();rej(new Error("network"))}};
+      var q=Object.keys(params).map(function(k){return k+"="+encodeURIComponent(params[k])}).join("&");
+      sc.src=API+(API.indexOf("?")>-1?"&":"?")+q+"&callback="+cb; document.body.appendChild(sc);
+    });
+  }
+  function remaining(s){return Math.max(0,s.cap-(taken[s.id]||0))}
+  function renderSessions(){
+    var cur=(document.querySelector("input[name=s]:checked")||{}).value||chosen;
+    box.querySelectorAll(".session").forEach(function(x){x.remove()});
+    SESSIONS.forEach(function(s,i){
+      var r=remaining(s), cls=r===0?"full":r<=3?"low":"ok";
+      var w=document.createElement("div"); w.className="session";
+      var inp=document.createElement("input"); inp.type="radio"; inp.name="s"; inp.id="s"+i; inp.value=s.id; inp.disabled=r===0;
+      if(cur===s.id&&r>0) inp.checked=true;
+      inp.addEventListener("change",function(){chosen=s.id});
+      var lab=document.createElement("label"); lab.htmlFor=inp.id;
+      var left=document.createElement("span");
+      var d=document.createElement("span"); d.className="date"; d.textContent=s.label;
+      var sub=document.createElement("div"); sub.className="sub"; sub.textContent="19h, Basic-Fit Charleville-Mézières";
+      left.appendChild(d); left.appendChild(sub);
+      var st=document.createElement("span"); st.className="seats "+cls; st.textContent=r===0?"Complet":r+(r>1?" places":" place");
+      lab.appendChild(left); lab.appendChild(st); w.appendChild(inp); w.appendChild(lab); box.appendChild(w);
+    });
+  }
+  function showErr(m){var e=$("err"); e.textContent=m; e.hidden=!m}
+  function load(){
+    return jsonp({action:"list"}).then(function(d){
+      if(!d||!d.ok) throw new Error("bad");
+      taken=d.counts||{}; renderSessions(); $("fallback").hidden=true;
+    }).catch(function(){$("fallback").hidden=false});
+  }
+  renderSessions(); load();
+
+  $("form").addEventListener("submit",function(ev){
+    ev.preventDefault(); if(saving) return; showErr("");
+    var sid=(document.querySelector("input[name=s]:checked")||{}).value;
+    var prenom=$("prenom").value.trim(), tel=$("tel").value.trim(), mail=$("mail").value.trim();
+    if(!sid) return showErr("Choisis un lundi.");
+    if(!prenom) return showErr("Indique ton prénom.");
+    if(tel.replace(/[^0-9+]/g,"").length<9) return showErr("Indique un numéro de téléphone valide.");
+    if(mail&&!/^\S+@\S+\.\S+$/.test(mail)) return showErr("L'adresse email semble incorrecte.");
+    if(!$("rgpd").checked) return showErr("Coche la case pour accepter l'utilisation de tes informations.");
+    var s=SESSIONS.filter(function(x){return x.id===sid})[0];
+    saving=true; $("submit").disabled=true;
+    jsonp({action:"book",date:sid,cap:s.cap,prenom:prenom,tel:tel,mail:mail,niveau:$("niveau").value,objectif:$("objectif").value,gene:$("gene").value.trim()})
+    .then(function(d){
+      if(d&&d.ok){
+        var el=$("done"); el.className="done"; el.hidden=false; $("form").hidden=true; el.innerHTML="";
+        var h=document.createElement("h2"); h.textContent="C'est réservé, "+prenom;
+        var p=document.createElement("p"); p.textContent="Rendez-vous le "+s.label.toLowerCase()+" à 19h à Basic-Fit Charleville-Mézières. Tu recevras un rappel la veille. Prévois une tenue de sport et une bouteille d'eau.";
+        el.appendChild(h); el.appendChild(p);
+      } else if(d&&d.error==="full"){ showErr("Ce lundi vient de se remplir. Choisis une autre date."); return load(); }
+      else throw new Error("bad");
+    }).catch(function(){showErr("La réservation n'a pas pu être enregistrée. Réessaie dans un instant.")})
+    .then(function(){saving=false; $("submit").disabled=false});
+  });
+})();
+</script>
+</body></html>
